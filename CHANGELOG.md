@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 (2026-10-10)
+
+* No change to `ps_slots.nss`.
+* README: the full in-game test results, and a note that a HoloPatcher mod needs an `info.rtf` beside `changes.ini` (without one, the command line install waits forever).
+* `holopatcher/changes_globalcat.ini`: the same note.
+
 ## 1.0.0 (2026-10-10)
 
 First release.

@@ -27,7 +27,7 @@ Without the roster patch, mods that use Party Slots fall back to their own behav
 
 ### Three steps
 
-1. **Pick a global name for your companion's slot,** for example `MYMOD_PARTY_SLOT`, and add it to `globalcat.2da` as a Number, together with the four shared globals `PS_SLOTS_A` to `PS_SLOTS_D`. `holopatcher/changes_globalcat.ini` has the lines. The shared ones use `ExclusiveColumn`, so they're added only if missing and any number of mods can ship them.
+1. **Pick a global name for your companion's slot,** for example `MYMOD_PARTY_SLOT`, and add it to `globalcat.2da` as a Number, together with the four shared globals `PS_SLOTS_A` to `PS_SLOTS_D`. `holopatcher/changes_globalcat.ini` has the lines. The shared ones use `ExclusiveColumn`, so they're added only if missing and any number of mods can ship them (tested: two mods installed one after the other give one row each). As with any HoloPatcher mod, keep an `info.rtf` beside your `changes.ini`.
 2. **Add your companion through Party Slots:**
 
 ```c
@@ -103,11 +103,15 @@ The game itself refuses slots past 8: they read as not available, and adding a c
 
 ## Tested
 
-In game, KotOR I 1.03 with Kotor Patch Manager 0.7.3 and Party Roster Limit 32:
+In game, KotOR I 1.03 with Kotor Patch Manager 0.7.3 and Party Roster Limit 32, run unattended by a test harness that loads a save, sets the game state and reads the results back from the game's own saves:
 
-* A save where one companion already had slot 10: the slot was recorded and marked taken.
-* A second mod's companion added through Party Slots got slot 9, the first free one, and both slots were marked.
-* Without the roster patch the engine refuses slots past 8, checked in the game's own code.
+* **Claiming slots:** with one companion already in slot 10, a second mod's companion added by template got slot 9, a third's added by object got 11, and a fourth's claim was given back cleanly. With every slot marked taken, a claim returned -1 and changed nothing.
+* **Saving and loading:** after the save was loaded again, every claim was still there, the next free slot was 12, and the second mod got its own slot 9 back instead of a new one.
+* **A companion that already had a fixed slot:** recorded and marked taken the first time its scripts ran.
+* **Recruiting into the first free slot,** and **moving a companion from a shared vanilla slot to its own** (from slot 5 to slot 9).
+* **The party screen** shows companions in slots 9, 10 and 11 with their portraits.
+* **Without the roster patch:** nothing changed, and the companion stayed in its vanilla slot.
+* **The HoloPatcher lines:** two mods installed one after the other gave one row of each shared global and one of each mod's own.
 
 ## Mods using Party Slots
 
